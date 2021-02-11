@@ -1,13 +1,16 @@
 package com.easv.aepm.dicecup
 
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import kotlin.math.ceil
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         selectSpinner.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
 
@@ -52,24 +54,49 @@ class MainActivity : AppCompatActivity() {
 
     fun generateDice(amount: Int){
 
+        val maxButtonsPrPage: Int = 2
+        val loopCount: Int =  (amount + maxButtonsPrPage - 1) / maxButtonsPrPage;
 
-        for (i in 1..amount){
+        for (i in 1..loopCount){
             val horizontalLayout = LinearLayout(this)
             horizontalLayout.orientation = LinearLayout.HORIZONTAL
 
+            val innerLoopCount: Int = if(amount < i * maxButtonsPrPage) amount % maxButtonsPrPage else maxButtonsPrPage
 
-            val btn = ImageButton(this)
-            btn.setImageResource(this.diceIds[0])
-            diceBoard.addView(btn)
+            for (j in 1..innerLoopCount){
+                val btn = ImageButton(this)
+                btn.setImageResource(this.diceIds[0])
+                btn.setOnClickListener { view -> onClickImage(view) }
+                horizontalLayout.addView(btn)
+            }
 
+            diceBoard.addView(horizontalLayout)
         }
-
-
-
-
     }
 
+    fun getAllButtons(): Array<ImageButton>{
 
+        val imageList = mutableListOf<ImageButton>()
+
+        diceBoard.children.forEach { view ->
+
+            (view as LinearLayout).children.forEach { view ->
+                imageList.add(view as ImageButton)
+            }
+        }
+
+        return imageList.toTypedArray()
+    }
+
+    fun getIndexOfChild(view: ImageButton): Int{
+        return getAllButtons().indexOf(view)
+    }
+
+    fun onClickImage(view: View){
+
+        Log.d("pikkemand", "${getIndexOfChild(view as ImageButton)}")
+
+    }
 
 
 
