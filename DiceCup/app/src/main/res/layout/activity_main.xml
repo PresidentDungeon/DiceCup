@@ -17,40 +17,24 @@
         android:textStyle="bold"
         />
 
+    <Spinner
+        android:id="@+id/selectSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvHeader"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/diceIndex"
+        ></Spinner>
+
     <LinearLayout
         android:id="@+id/diceBoard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/tvHeader"
+        android:layout_below="@id/selectSpinner"
         android:background="@color/diceboard"
-        >
-
-
-        <ImageView
-            android:id="@+id/imgDice1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:maxWidth="100dp"
-            android:scaleType="center"
-            android:adjustViewBounds="true"
-            android:src="@drawable/dice1"
-            />
-
-        <ImageView
-            android:id="@+id/imgDice2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:maxWidth="100dp"
-            android:scaleType="center"
-            android:adjustViewBounds="true"
-            android:src="@drawable/dice1"
-            />
-
-    </LinearLayout>
+        />
 
     <Button
         android:id="@+id/btnRoll"
@@ -59,7 +43,7 @@
         android:text="Roll"
         android:layout_below="@id/diceBoard"
         android:layout_centerHorizontal="true"
-        android:onClick="onClickRoll"
+        android:visibility="invisible"
         />
 
     <TextView
@@ -69,6 +53,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/btnRoll"
         android:text="This is a history"
+        android:visibility="invisible"
         />
 
     <Button
@@ -78,6 +63,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:onClick="onClickClear"
+        android:visibility="invisible"
         />
 
 
