@@ -1,5 +1,6 @@
 package com.easv.aepm.dicecup
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -19,16 +20,17 @@ class MainActivity : AppCompatActivity() {
     val diceIdsSelected = arrayOf(R.drawable.dice1s, R.drawable.dice2s, R.drawable.dice3s, R.drawable.dice4s, R.drawable.dice5s, R.drawable.dice6s)
     val history = mutableListOf<HistoryRoll>()
 
+    var maxButtonsLandscape: Int = 3
+    var maxButtonsPortrait: Int = 2
+
     private lateinit var shouldRoll: Array<Boolean>
     private var diceAmount: Int = 0
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         selectSpinner.setOnItemSelectedListener(object : OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
 
                 diceBoard.removeAllViews()
                 diceAmount = position;
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     fun generateDice(amount: Int){
 
-        val maxButtonsPrPage: Int = 2
+        val maxButtonsPrPage: Int = if(this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) maxButtonsPortrait else maxButtonsLandscape
 
         val loopCount: Int =  (amount + maxButtonsPrPage - 1) / maxButtonsPrPage;
 
@@ -103,15 +105,14 @@ class MainActivity : AppCompatActivity() {
         if(history.size > 0){
 
             if(history[history.lastIndex].history.size === diceAmount){
-
                 historyLast = history[history.lastIndex].history[placement] -1
                 if(historyLast == -1){historyLast++}
-
             }
         }
 
         shouldRoll[placement] = !shouldRoll[placement]
         imageButton.setImageResource(if(!shouldRoll[placement]) diceIdsSelected[historyLast] else diceIds[historyLast])
+
     }
 
     fun onClickRoll(view: View) {
@@ -131,11 +132,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         else{
-
-
             for(i in allButtons.indices) {
                 val number:Int = if(shouldRoll[i] === false) mGenerator.nextInt(6) else -1
-
 
                 if(number == -1 && history.size > 0){
 
@@ -143,18 +141,6 @@ class MainActivity : AppCompatActivity() {
                         currentHistory[i] = history[history.size-1].history[i]
                     }
                 }
-
-
-
-
-
-
-
-
-
-
-
-
 
                 else if(number == -1){currentHistory[i] = 0}
                 else{currentHistory[i] = number + 1}
@@ -187,7 +173,7 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
 
 
-        //Gemme history og antal knapper valgt.
+        //Gemme history og should roll
         //Loade board og sætte terninger til samme billede som sidste history. Hvis
 
 
