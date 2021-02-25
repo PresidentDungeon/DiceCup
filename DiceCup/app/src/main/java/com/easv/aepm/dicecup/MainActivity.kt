@@ -54,12 +54,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        selectSpinner.setOnTouchListener(OnTouchListener { v, event ->
-            this.userTouch = true
-            false
-        })
+        selectSpinner.setOnTouchListener(OnTouchListener { v, event -> this.userTouch = true; false })
         selectSpinner.setOnItemSelectedListener(object : OnItemSelectedListener {
-
 
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -86,10 +82,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     userTouch = false;
                 }
-
-
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         })
 
@@ -97,29 +90,19 @@ class MainActivity : AppCompatActivity() {
             val gson = Gson()
 
             val jsonHistory = savedInstanceState.getString("history")
-            //this.history = gson.fromJson(jsonHistory, mutableListOf<HistoryRoll>()::class.java)
 
-
-
-
-
-
-
+            this.history = gson.fromJson(jsonHistory, Array<HistoryRoll>::class.java).toMutableList()
+            
             if(savedInstanceState.containsKey("latestHistory")){
-                Log.d("YESH", "YESH")
                 val latestHistory = savedInstanceState.getString("latestHistory")
                 this.latestHistory = gson.fromJson(latestHistory, HistoryRoll::class.java)
             }
-
-
 
             this.diceChanged = savedInstanceState.getBoolean("diceChanged")
             this.diceAmount = savedInstanceState.getInt("diceAmount")
 
             val shouldRoll = savedInstanceState.getString("shouldRoll")
             this.shouldRoll = gson.fromJson(shouldRoll, Array<Boolean>::class.java)
-//
-
 
             selectSpinner.setSelection(diceAmount)
             if(diceAmount !== 0){
@@ -130,11 +113,7 @@ class MainActivity : AppCompatActivity() {
                 btnClear.visibility = View.VISIBLE
             }
 
-
-
-
-
-//            updateHistory()
+            updateHistory()
 
 
         }
@@ -191,13 +170,13 @@ class MainActivity : AppCompatActivity() {
 
         var historyLast: Int = 0
 
-        if(history.size > 0 ){
-
-            if(history[history.lastIndex].history.size === diceAmount){
-                historyLast = history[history.lastIndex].history[placement] -1
-                if(historyLast == -1){historyLast++}
-            }
-        }
+//        if(history.size > 0 ){
+//
+//            if(history[history.lastIndex].history.size === diceAmount){
+//                historyLast = history[history.lastIndex].history[placement] -1
+//                if(historyLast == -1){historyLast++}
+//            }
+//        }
 
         shouldRoll[placement] = !shouldRoll[placement]
         if(diceChanged){
@@ -267,7 +246,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickClear(view: View) {
-        this.shouldRoll.forEach { d ->  Log.d("DDDDD", "${d}")}
         history.clear()
         updateHistory()
     }
@@ -286,16 +264,14 @@ class MainActivity : AppCompatActivity() {
                 allButtons[i].setImageResource(if (!shouldRoll[i]) diceIdsSelected[0] else diceIds[0])
             }
         }
-
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
         val gson = Gson()
-        val jsonHistory = gson.toJson(this.history)
 
+        val jsonHistory = gson.toJson(this.history)
         val shouldRoll = gson.toJson(this.shouldRoll)
 
         outState.putString("history", jsonHistory)
@@ -304,11 +280,9 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("diceAmount", diceAmount)
 
         if (this::latestHistory.isInitialized) {
-
             val jsonLatestHistory = gson.toJson(this.latestHistory)
             outState.putString("latestHistory", jsonLatestHistory)
         }
-
     }
 
 }
