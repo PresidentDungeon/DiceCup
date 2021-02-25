@@ -1,6 +1,8 @@
 package com.easv.aepm.dicecup
 
+
 import android.content.res.Configuration
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -26,8 +28,10 @@ class MainActivity : AppCompatActivity() {
     var maxButtonsPortrait: Int = 2
     var diceChanged: Boolean = false;
 
+
     private lateinit var shouldRoll: Array<Boolean>
     private var diceAmount: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
