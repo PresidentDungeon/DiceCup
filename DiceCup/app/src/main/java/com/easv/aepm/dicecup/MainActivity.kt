@@ -203,6 +203,9 @@ class MainActivity : AppCompatActivity() {
         if(diceChanged){
             imageButton.setImageResource(if (!shouldRoll[placement]) diceIdsSelected[0] else diceIds[0])
         }
+        else if(this::latestHistory.isInitialized){
+            imageButton.setImageResource(if (!shouldRoll[placement]) diceIdsSelected[latestHistory.history[placement]-1] else diceIds[latestHistory.history[placement]-1])
+        }
         else{
             imageButton.setImageResource(if (!shouldRoll[placement]) diceIdsSelected[historyLast] else diceIds[historyLast])
         }
@@ -237,6 +240,7 @@ class MainActivity : AppCompatActivity() {
                     else{currentHistory[i] = 1}
                 }
 
+                else if(number == -1 && this::latestHistory.isInitialized && !diceChanged){currentHistory[i] = latestHistory.history[i]}
                 else if(number == -1){currentHistory[i] = 1}
                 else{currentHistory[i] = number + 1}
 
