@@ -17,42 +17,63 @@
         android:textStyle="bold"
         />
 
-    <Spinner
-        android:id="@+id/selectSpinner"
+    <RelativeLayout
+        android:id="@+id/diceArea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvHeader"
-        android:layout_centerHorizontal="true"
-        android:entries="@array/diceIndex"
-        ></Spinner>
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp">
+
+        <LinearLayout
+            android:id="@+id/bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/selectSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:entries="@array/diceIndex"
+                ></Spinner>
+
+            <Button
+                android:id="@+id/btnRoll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Roll"
+                android:layout_below="@id/diceBoard"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"
+                android:onClick="onClickRoll"
+                />
+
+        </LinearLayout>
 
     <LinearLayout
         android:id="@+id/diceBoard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/selectSpinner"
+        android:layout_below="@id/bar"
         android:background="@color/diceboard"
-        />
+        android:orientation="vertical" />
 
-    <Button
-        android:id="@+id/btnRoll"
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Roll"
-        android:layout_below="@id/diceBoard"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:onClick="onClickRoll"
-        />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvHeader"
+        android:layout_marginRight="12dp">
 
     <TextView
         android:id="@+id/tvHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btnRoll"
         android:text="This is a history"
         android:visibility="invisible"
         />
@@ -67,6 +88,6 @@
         android:onClick="onClickClear"
         android:visibility="invisible"
         />
-
+    </RelativeLayout>
 
 </RelativeLayout>

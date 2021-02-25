@@ -1,12 +1,14 @@
 package com.easv.aepm.dicecup
 
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.easv.aepm.dicecup.data.HistoryRoll
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     var maxButtonsLandscape: Int = 3
     var maxButtonsPortrait: Int = 2
+    var diceChanged: Boolean = false;
 
     private lateinit var shouldRoll: Array<Boolean>
     private var diceAmount: Int = 0
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                 diceBoard.removeAllViews()
                 diceAmount = position;
                 shouldRoll = Array(diceAmount){i -> true}
+                diceChanged = true;
 
                 if(position != 0){
                     generateDice(position)
@@ -71,6 +75,15 @@ class MainActivity : AppCompatActivity() {
                 btn.setImageResource(this.diceIds[0])
                 btn.setOnClickListener { view -> onClickImage(view) }
                 horizontalLayout.addView(btn)
+
+                btn.setBackgroundColor(ContextCompat.getColor(this, R.color.diceboard))
+
+                if(this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+
+
+
+
+                }
             }
 
             diceBoard.addView(horizontalLayout)
@@ -111,8 +124,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         shouldRoll[placement] = !shouldRoll[placement]
-        imageButton.setImageResource(if(!shouldRoll[placement]) diceIdsSelected[historyLast] else diceIds[historyLast])
-
+        if(diceChanged){
+            imageButton.setImageResource(if(!shouldRoll[placement]) diceIdsSelected[0] else diceIds[0])
+        }
+        else{
+            imageButton.setImageResource(if(!shouldRoll[placement]) diceIdsSelected[historyLast] else diceIds[historyLast])
+        }
     }
 
     fun onClickRoll(view: View) {
@@ -133,19 +150,20 @@ class MainActivity : AppCompatActivity() {
 
         else{
             for(i in allButtons.indices) {
-                val number:Int = if(shouldRoll[i] === false) mGenerator.nextInt(6) else -1
+                val number:Int = if(shouldRoll[i] === true) mGenerator.nextInt(6) else -1
 
                 if(number == -1 && history.size > 0){
 
-                    if(history[history.lastIndex].history.size === diceAmount){
+                    if(history[history.lastIndex].history.size === diceAmount && !diceChanged){
                         currentHistory[i] = history[history.size-1].history[i]
                     }
+                    else{currentHistory[i] = 1}
                 }
 
-                else if(number == -1){currentHistory[i] = 0}
+                else if(number == -1){currentHistory[i] = 1}
                 else{currentHistory[i] = number + 1}
 
-                if(number != -1){allButtons[i].setImageResource(diceIdsSelected[number])}
+                if(number != -1){allButtons[i].setImageResource(diceIds[number])}
             }
             val roll: HistoryRoll = HistoryRoll(Date(), currentHistory)
             history.add(roll)
@@ -156,6 +174,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateHistory()
+        diceChanged = false;
     }
 
     private fun updateHistory() {
