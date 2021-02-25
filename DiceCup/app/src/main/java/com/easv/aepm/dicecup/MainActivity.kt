@@ -1,8 +1,5 @@
 package com.easv.aepm.dicecup
 
-import android.app.Activity
-import android.graphics.Color
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,11 +7,9 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.core.view.setPadding
 import com.easv.aepm.dicecup.data.HistoryRoll
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import kotlin.math.ceil
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,12 +49,13 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         })
 
-        if(savedInstanceState != null){ }
+        //if(savedInstanceState != null){ }
     }
 
     fun generateDice(amount: Int){
 
         val maxButtonsPrPage: Int = 2
+
         val loopCount: Int =  (amount + maxButtonsPrPage - 1) / maxButtonsPrPage;
 
         for (i in 1..loopCount){
@@ -101,7 +97,19 @@ class MainActivity : AppCompatActivity() {
 
         val imageButton: ImageButton = view as ImageButton
         val placement:Int = getIndexOfChild(imageButton)
-        val historyLast: Int = if(history.size > 0) history[history.size-1].history[placement] - 1 else 0
+
+        var historyLast: Int = 0
+
+        if(history.size > 0){
+
+            if(history[history.lastIndex].history.size === diceAmount){
+
+                historyLast = history[history.lastIndex].history[placement] -1
+                if(historyLast == -1){historyLast++}
+
+            }
+        }
+
         shouldRoll[placement] = !shouldRoll[placement]
         imageButton.setImageResource(if(!shouldRoll[placement]) diceIdsSelected[historyLast] else diceIds[historyLast])
     }
@@ -123,9 +131,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         else{
+
+
             for(i in allButtons.indices) {
                 val number:Int = if(shouldRoll[i] === false) mGenerator.nextInt(6) else -1
-                if(number == -1 && history.size > 0){currentHistory[i] = history[history.size-1].history[i]}
+
+
+                if(number == -1 && history.size > 0){
+
+                    if(history[history.lastIndex].history.size === diceAmount){
+                        currentHistory[i] = history[history.size-1].history[i]
+                    }
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
                 else if(number == -1){currentHistory[i] = 0}
                 else{currentHistory[i] = number + 1}
 
