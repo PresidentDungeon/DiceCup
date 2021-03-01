@@ -16,15 +16,16 @@
         android:textStyle="bold"
         />
 
-    <view class="androidx.appcompat.app.AlertController$RecycleListView"
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvHeaderHistory">
-
-
-    </view>
+        android:layout_below="@+id/tvHeaderHistory"
+        android:layout_above="@+id/btnSection"
+    />
 
     <LinearLayout
+        android:id="@+id/btnSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

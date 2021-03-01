@@ -1,6 +1,7 @@
 package com.easv.aepm.dicecup
 
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
@@ -50,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     private var shouldRoll: Array<Boolean> = arrayOf()
     private var diceAmount: Int = 0
 
+    val gson = Gson()
+    val REQUEST_CODE_LIST = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -75,10 +79,12 @@ class MainActivity : AppCompatActivity() {
                         btnRoll.visibility = View.VISIBLE
                         tvHistory.visibility = View.VISIBLE
                         btnClear.visibility = View.VISIBLE
+                        btnHistory.visibility = View.VISIBLE
                     } else {
                         btnRoll.visibility = View.INVISIBLE
                         tvHistory.visibility = View.INVISIBLE
                         btnClear.visibility = View.INVISIBLE
+                        btnHistory.visibility = View.INVISIBLE
                     }
                     userTouch = false;
                 }
@@ -87,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         })
 
         if(savedInstanceState != null){
-            val gson = Gson()
 
             val jsonHistory = savedInstanceState.getString("history")
 
@@ -111,11 +116,10 @@ class MainActivity : AppCompatActivity() {
                 btnRoll.visibility = View.VISIBLE
                 tvHistory.visibility = View.VISIBLE
                 btnClear.visibility = View.VISIBLE
+                btnHistory.visibility = View.VISIBLE
             }
 
             updateHistory()
-
-
         }
     }
 
@@ -169,14 +173,6 @@ class MainActivity : AppCompatActivity() {
         val placement:Int = getIndexOfChild(imageButton)
 
         var historyLast: Int = 0
-
-//        if(history.size > 0 ){
-//
-//            if(history[history.lastIndex].history.size === diceAmount){
-//                historyLast = history[history.lastIndex].history[placement] -1
-//                if(historyLast == -1){historyLast++}
-//            }
-//        }
 
         shouldRoll[placement] = !shouldRoll[placement]
         if(diceChanged){
@@ -250,6 +246,13 @@ class MainActivity : AppCompatActivity() {
         updateHistory()
     }
 
+    fun onClickHistory(view: View) {
+        val jsonHistory = gson.toJson(this.history)
+        val intent = Intent(this, ListActivity::class.java)
+        intent.putExtra("HISTORY", jsonHistory)
+        startActivityForResult(intent, REQUEST_CODE_LIST)
+    }
+
     fun loadoptionsRotation(){
 
         val allButtons: Array<ImageButton> = getAllButtons()
@@ -268,8 +271,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        val gson = Gson()
 
         val jsonHistory = gson.toJson(this.history)
         val shouldRoll = gson.toJson(this.shouldRoll)
