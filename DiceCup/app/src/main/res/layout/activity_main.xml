@@ -63,23 +63,12 @@
         android:layout_centerHorizontal="true">
 
     <Button
-        android:id="@+id/btnClear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clear"
-        android:onClick="onClickClear"
-        android:visibility="invisible"
-        android:layout_marginRight="5dp"
-        />
-
-    <Button
         android:id="@+id/btnHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="History"
         android:onClick="onClickHistory"
         android:visibility="invisible"
-        android:layout_marginLeft="5dp"
         />
     </LinearLayout>
 

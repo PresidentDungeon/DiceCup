@@ -37,12 +37,14 @@
             android:layout_height="wrap_content"
             android:text="RETURN"
             android:layout_marginRight="12dp"
+            android:onClick="onClickReturn"
             />
         <Button
             android:id="@+id/btnClear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CLEAR"
+            android:onClick="onClickClear"
             />
 
 

@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     val gson = Gson()
     val REQUEST_CODE_LIST = 1
+    val ResultCodeClear = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,12 +79,10 @@ class MainActivity : AppCompatActivity() {
                         generateDice(position)
                         btnRoll.visibility = View.VISIBLE
                         tvHistory.visibility = View.VISIBLE
-                        btnClear.visibility = View.VISIBLE
                         btnHistory.visibility = View.VISIBLE
                     } else {
                         btnRoll.visibility = View.INVISIBLE
                         tvHistory.visibility = View.INVISIBLE
-                        btnClear.visibility = View.INVISIBLE
                         btnHistory.visibility = View.INVISIBLE
                     }
                     userTouch = false;
@@ -115,7 +114,6 @@ class MainActivity : AppCompatActivity() {
                 loadoptionsRotation()
                 btnRoll.visibility = View.VISIBLE
                 tvHistory.visibility = View.VISIBLE
-                btnClear.visibility = View.VISIBLE
                 btnHistory.visibility = View.VISIBLE
             }
 
@@ -241,11 +239,6 @@ class MainActivity : AppCompatActivity() {
         tvHistory.setText(historyString)
     }
 
-    fun onClickClear(view: View) {
-        history.clear()
-        updateHistory()
-    }
-
     fun onClickHistory(view: View) {
         val jsonHistory = gson.toJson(this.history)
         val intent = Intent(this, ListActivity::class.java)
@@ -283,6 +276,15 @@ class MainActivity : AppCompatActivity() {
         if (this::latestHistory.isInitialized) {
             val jsonLatestHistory = gson.toJson(this.latestHistory)
             outState.putString("latestHistory", jsonLatestHistory)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == REQUEST_CODE_LIST && resultCode == ResultCodeClear) {
+            history.clear()
+            updateHistory()
         }
     }
 
