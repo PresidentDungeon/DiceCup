@@ -2,6 +2,7 @@ package com.easv.aepm.dicecup.data
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,18 +59,21 @@ class RecyclerHolder(view: View, diceIds: Array<Int>, dateFormat: DateFormat) : 
     var diceIds = diceIds
     var dateFormat = dateFormat
 
-    lateinit var history: HistoryRoll
-
     fun bind(historyRoll: HistoryRoll, position: Int){
-        this.history = historyRoll
-        timestamp.text = dateFormat.format(history.rollDate)
+        timestamp.text = dateFormat.format(historyRoll.rollDate)
 
         val imageList = mutableListOf<ImageView>()
         view.findViewById<LinearLayout>(R.id.imageLayout).forEach { view -> imageList.add(view as ImageView) }
 
-        for(i in history.history.indices){
-            imageList[i].setImageResource(diceIds[history.history[i] - 1])
+        for(i in historyRoll.history.indices){
+            imageList[i].setImageResource(diceIds[historyRoll.history[i] - 1])
+            imageList[i].visibility = View.VISIBLE
         }
+
+        for(i in historyRoll.history.size..5){
+            imageList[i].visibility = View.INVISIBLE
+        }
+
 
         val index1 = Color.parseColor("#d2d6d6")
         val index2 = Color.parseColor("#ffffff")
