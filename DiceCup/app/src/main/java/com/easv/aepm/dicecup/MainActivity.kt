@@ -132,7 +132,8 @@ class MainActivity : AppCompatActivity() {
         for (i in 1..loopCount){
             val horizontalLayout = LinearLayout(this)
             horizontalLayout.orientation = LinearLayout.HORIZONTAL
-            horizontalLayout.layoutParams = (LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 300))
+            val pixelSize: Int = (114 * this.resources.displayMetrics.density).toInt()
+            horizontalLayout.layoutParams = (LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, pixelSize))
 
             val innerLoopCount: Int = if(amount < i * maxButtonsPrPage) amount % maxButtonsPrPage else maxButtonsPrPage
 
