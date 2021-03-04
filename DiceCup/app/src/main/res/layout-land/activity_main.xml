@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/bar"
         android:background="@color/diceboard"
-        android:orientation="vertical" />
+        android:orientation="vertical"/>
 
 
     </RelativeLayout>
