@@ -2,16 +2,12 @@ package com.easv.aepm.dicecup.data
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
 import com.easv.aepm.dicecup.R
@@ -20,8 +16,8 @@ import java.text.SimpleDateFormat
 
 class RecyclerAdapter : RecyclerView.Adapter<RecyclerHolder> {
 
-    private lateinit var mInflater: LayoutInflater
-    private lateinit var history: List<HistoryRoll>
+    private var mInflater: LayoutInflater
+    private var history: List<HistoryRoll>
     private var dateConverter = SimpleDateFormat("HH:mm:ss")
     private val diceIds = arrayOf(
         R.drawable.dice1,

@@ -3,12 +3,9 @@ package com.easv.aepm.dicecup
 
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.View.OnTouchListener
-import android.view.ViewGroup
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
@@ -143,7 +140,6 @@ class MainActivity : AppCompatActivity() {
                 btn.setOnClickListener { view -> onClickImage(view) }
                 horizontalLayout.addView(btn)
 
-                //btn.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 btn.setBackgroundColor(ContextCompat.getColor(this, R.color.diceboard))
             }
 
